@@ -1,6 +1,13 @@
 # ninja log v6
-30	117	7921047336908116	CMakeFiles/main.dir/src/b_list.cpp.obj	cef15a58aa24cce9
-26	370	7921047336868116	CMakeFiles/main.dir/src/main.cpp.obj	2ca45af292fbe03d
-371	768	7921047340327801	main.exe	d51ec988e4a474b0
-4	336	7921329537502079	CMakeFiles/main.dir/src/main.cpp.obj	2ca45af292fbe03d
-336	550	7921329540812074	main.exe	d51ec988e4a474b0
+19	306	7921765831297400	CMakeFiles/main.dir/src/main.cpp.obj	2ca45af292fbe03d
+1	152	7921769220680551	build.ninja	a81e69b7f915c692
+1264	1851	7921753425564961	main.exe	12a9c2dff94871d2
+3	235	7921766311429044	CMakeFiles/main.dir/src/b_list.cpp.obj	cef15a58aa24cce9
+1	145	7921769220680551	build.ninja	a81e69b7f915c692
+16	270	7921769221138676	CMakeFiles/main.dir/src/b_list.cpp.obj	cef15a58aa24cce9
+270	382	7921769223667063	main.exe	d51ec988e4a474b0
+7	247	7921779711485825	CMakeFiles/main.dir/src/b_list.cpp.obj	cef15a58aa24cce9
+3	280	7921779711445803	CMakeFiles/main.dir/src/main.cpp.obj	2ca45af292fbe03d
+280	406	7921779714226908	main.exe	d51ec988e4a474b0
+21	277	7921781315704682	CMakeFiles/main.dir/src/main.cpp.obj	2ca45af292fbe03d
+278	387	7921781318275678	main.exe	d51ec988e4a474b0

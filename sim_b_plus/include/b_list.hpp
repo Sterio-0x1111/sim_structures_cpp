@@ -7,7 +7,8 @@ namespace sim_blist {
     using std::string;
     constexpr size_t MAX_SIZE = 10;
 
-    template <typename T> class DataNode {
+    template <typename T>
+    class DataNode {
       private:
         BList *relation;
         T value;
@@ -21,17 +22,15 @@ namespace sim_blist {
       protected:
       public:
         DataNode(T p_value, BList *p_relation = nullptr)
-            : relation(p_relation), value(p_value) {}
-        virtual ~DataNode() {}
-        // if (p_relation == nullptr) {
-        //     throw std::invalid_argument("p_relation is null");
-        // }
+            : relation(p_relation), value(p_value) {
+        }
+        virtual ~DataNode() {
+        }
 
-        inline void setRelation(BList *p_relation) { relation = p_relation; }
-        inline BList *getRelation() const { return relation; }
-
-        inline void setValue(T p_value) { value = p_value; }
-        inline T getValue() const { return value; }
+        void setRelation(BList *p_relation);
+        BList *getRelation() const;
+        void setValue(T p_value);
+        T getValue() const;
     };
 
     class BList {
@@ -48,27 +47,6 @@ namespace sim_blist {
         BList(const BList &);
         BList &operator=(const BList &);
     };
-
-    inline BList::BList() : previous(nullptr), next(nullptr) {
-        // Initialisierung: Alle Pointer auf nullptr setzen
-        for (size_t i = 0; i < max_size; ++i) {
-            data_node[i] = nullptr;
-        }
-    }
-
-    inline BList::~BList() {
-        for (size_t i = 0; i < max_size; ++i) {
-            delete data_node[i];
-        }
-    }
-
-    inline BList::BList(const BList &other) {}
-
-    inline BList &BList::operator=(const BList &rhs) {
-        if (this != &rhs) {
-        }
-        // (*this).foo oder this->foo
-        return *this;
-    }
-
 } // namespace sim_blist
+
+#include "../src/b_list.tpp" // nur bei template
