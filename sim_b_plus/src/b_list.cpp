@@ -1,44 +1,39 @@
 #include "../include/b_list.hpp"
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 
 namespace sim_blist {
 
-    void delete_node_at(data_variant &node) {
-        std::visit([](auto *ptr) { delete ptr; }, node);
+    void BList::delete_node_at(size_t index) {
+        data_node[index] = std::shared_ptr<DataNode<int>>(nullptr);
     }
 
     BList::BList(BList *p_previous, BList *p_next)
         : previous(p_previous), next(p_next) {
         for (size_t i = 0; i < max_size; ++i) {
-            data_node[i] = static_cast<DataNode<int> *>(nullptr);
+            delete_node_at(i);
         }
     }
 
     BList::~BList() {
+        // Optional: explizit da sonst automatisch
         for (size_t i = 0; i < max_size; ++i) {
-            delete_node_at(data_node[i]);
+            delete_node_at(i);
         }
     }
 
-    // BList::BList(const BList &other) {
-    // }
+    BList::BList(const BList &other) : previous(nullptr), next(nullptr) {
+        for (size_t i = 0; i < max_size; ++i) {
+            this->data_node[i] = other.data_node[i];
+            // shared_ptr erhöht hier einfach den Ref-Count
+        }
+    }
 
     BList &BList::operator=(const BList &rhs) {
         if (this != &rhs) {
             for (size_t i = 0; i < max_size; ++i) {
-                delete_node_at(this->data_node[i]);
-            }
-
-            for (size_t i = 0; i < max_size; ++i) {
-                this->data_node[i] = std::visit(
-                    [](auto *ptr) -> data_variant {
-                        if (!ptr) {
-                            return static_cast<decltype(ptr)>(nullptr);
-                        }
-                        return new std::remove_pointer_t<decltype(ptr)>(*ptr);
-                    },
-                    rhs.data_node[i]);
+                this->data_node[i] = rhs.data_node[i];
             }
         }
         // (*this).foo oder this->foo
@@ -47,10 +42,9 @@ namespace sim_blist {
 
     void BList::setDataNode(size_t index, data_variant new_data) {
         if (index < max_size) {
-            delete_node_at(data_node[index]);
             data_node[index] = new_data;
         } else {
-            throw std::out_of_range("BList set DataNode: Index out of range");
+            throw std::out_of_range("Index out of range");
         }
     }
 
@@ -66,6 +60,7 @@ namespace sim_blist {
             throw std::invalid_argument("BList set previous: previous is null");
         } else {
             this->previous = previous_blist;
+            previous_blist->next = this;
         }
     }
 
@@ -78,6 +73,7 @@ namespace sim_blist {
             throw std::invalid_argument("BList set next: next is null");
         } else {
             this->next = next_blist;
+            next_blist->previous = this;
         }
     }
 
@@ -88,12 +84,11 @@ namespace sim_blist {
     std::ostream &operator<<(std::ostream &os,
                              const data_variant &p_data_variant) {
         std::visit(
-            [&os](auto *ptr) {
+            [&os](const auto &ptr) {
                 if (ptr) {
-                    // Greift auf den Wert im DataNode zu
                     os << ptr->getValue();
                 } else {
-                    os << "nullptr";
+                    os << "[null]";
                 }
             },
             p_data_variant);

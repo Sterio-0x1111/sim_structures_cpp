@@ -1,23 +1,23 @@
 #include "../include/b_list.hpp"
 #include <iostream>
+#include <memory>
 
 using std::cout;
 using std::endl;
 using namespace sim_blist;
 
 int main(int, char **) {
-    // std::unique_ptr oder std::shared_ptr risiko für Dangling Pointers <- to do
-    DataNode<int> *test = new DataNode<int>(5);
+    // std::unique_ptr oder std::shared_ptr risiko für Dangling Pointers <-- to
+    // do
+    std::shared_ptr<DataNode<int>> test = std::make_shared<DataNode<int>>(5);
     BList r;
     BList j;
     test->setRelation(&r);
     r.setnextBList(&j);
-    j.setPreviousBList(&r);
-    data_variant *dv = new data_variant(test);
 
     cout << "B+ Baum\n";
     cout << test->getValue() << " " << test->getRelation() << endl;
-    r.setDataNode(5, *dv);
+    r.setDataNode(5, test);
     cout << r.getDataNode(5) << " " << test->getValue() << endl;
 
     for (int i = MAX_SIZE - 1; i >= 0; i--) {
@@ -38,9 +38,6 @@ int main(int, char **) {
     }
 
     cout << endl;
-
-    delete dv;
-    delete test;
 
     cout << r.getDataNode(5); // wert wird angezeigt obwohl bereits freigegeben
 

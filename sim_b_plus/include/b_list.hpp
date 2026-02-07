@@ -1,5 +1,8 @@
 #pragma once
+#include <iostream>
+#include <memory>
 #include <string>
+#include <type_traits>
 #include <variant>
 
 namespace sim_blist {
@@ -21,7 +24,8 @@ namespace sim_blist {
 
       protected:
       public:
-        DataNode(T p_value = 0, BList *p_relation = nullptr)
+        // für string T{}
+        DataNode(T p_value = T{}, BList *p_relation = nullptr)
             : relation(p_relation), value(p_value) {
         }
         virtual ~DataNode() {
@@ -33,9 +37,10 @@ namespace sim_blist {
         T getValue() const;
     };
 
-    using data_variant =
-        std::variant<DataNode<int> *, DataNode<float> *, DataNode<double> *,
-                     DataNode<std::string> *>;
+    using data_variant = std::variant<std::shared_ptr<DataNode<int>>,
+                                      std::shared_ptr<DataNode<float>>,
+                                      std::shared_ptr<DataNode<double>>,
+                                      std::shared_ptr<DataNode<std::string>>>;
 
     std::ostream &operator<<(std::ostream &os,
                              const data_variant &p_data_variant);
@@ -47,10 +52,12 @@ namespace sim_blist {
         BList *previous;
         BList *next;
 
+        void delete_node_at(size_t index);
+
       public:
         BList(BList *p_previous = nullptr, BList *p_next = nullptr);
         virtual ~BList();
-        // BList(const BList &);
+        BList(const BList &);
         BList &operator=(const BList &);
 
         void setDataNode(size_t, data_variant);
