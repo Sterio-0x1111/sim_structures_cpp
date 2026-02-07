@@ -2,10 +2,8 @@
 #include <string>
 #include <variant>
 
-class BList;
-
-namespace blist {
-
+namespace sim_blist {
+    class BList;
     using std::string;
     constexpr size_t MAX_SIZE = 10;
 
@@ -73,4 +71,4 @@ namespace blist {
         return *this;
     }
 
-} // namespace blist
+} // namespace sim_blist

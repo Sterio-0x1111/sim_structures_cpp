@@ -2,9 +2,17 @@
 #include "b_list.cpp"
 #include <iostream>
 
+using std::cout;
+using std::endl;
+using namespace sim_blist;
+
 int main(int, char **) {
-    std::cout << "B+ Baum\n";
-    blist::DataNode<int> test(1);
-    std::cout << test.getValue();
+    DataNode<int> test(1);
+    BList r;
+    DataNode<double> test2(20, &r);
+
+    cout << "B+ Baum\n";
+    cout << test.getValue() << " " << test2.getRelation() << endl;
+    
     return EXIT_SUCCESS;
 }
