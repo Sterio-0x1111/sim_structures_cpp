@@ -21,8 +21,8 @@ namespace sim_blist {
         }
     }
 
-    BList::BList(const BList &other) {
-    }
+    // BList::BList(const BList &other) {
+    // }
 
     BList &BList::operator=(const BList &rhs) {
         if (this != &rhs) {
@@ -33,8 +33,9 @@ namespace sim_blist {
             for (size_t i = 0; i < max_size; ++i) {
                 this->data_node[i] = std::visit(
                     [](auto *ptr) -> data_variant {
-                        if (!ptr)
+                        if (!ptr) {
                             return static_cast<decltype(ptr)>(nullptr);
+                        }
                         return new std::remove_pointer_t<decltype(ptr)>(*ptr);
                     },
                     rhs.data_node[i]);
@@ -45,22 +46,47 @@ namespace sim_blist {
     }
 
     void BList::setDataNode(size_t index, data_variant new_data) {
-        if (index >= 0 && index < max_size) {
+        if (index < max_size) {
             delete_node_at(data_node[index]);
             data_node[index] = new_data;
         } else {
-            throw std::out_of_range("BList: Index out of range");
+            throw std::out_of_range("BList set DataNode: Index out of range");
         }
     }
 
     data_variant BList::getDataNode(size_t index) {
-        if (index < 0 || index >= max_size)
-            throw std::out_of_range("BList: Index out of range");
+        if (index >= max_size) {
+            throw std::out_of_range("BList get DataNode: Index out of range");
+        }
         return data_node[index];
     }
 
+    void BList::setPreviousBList(BList *previous_blist) {
+        if (!previous_blist) {
+            throw std::invalid_argument("BList set previous: previous is null");
+        } else {
+            this->previous = previous_blist;
+        }
+    }
+
+    BList *BList::getPreviousBList() {
+        return previous;
+    }
+
+    void BList::setnextBList(BList *next_blist) {
+        if (!next_blist) {
+            throw std::invalid_argument("BList set next: next is null");
+        } else {
+            this->next = next_blist;
+        }
+    }
+
+    BList *BList::getnextBList() {
+        return next;
+    }
+
     std::ostream &operator<<(std::ostream &os,
-                                    const data_variant &p_data_variant) {
+                             const data_variant &p_data_variant) {
         std::visit(
             [&os](auto *ptr) {
                 if (ptr) {
@@ -72,17 +98,5 @@ namespace sim_blist {
             },
             p_data_variant);
         return os;
-    }
-
-    void BList::setPreviousBList(BList *) {
-    }
-
-    BList *BList::getPreviousBList() {
-    }
-
-    void BList::setnextBList(BList *) {
-    }
-
-    BList *BList::getnextBList() {
     }
 } // namespace sim_blist

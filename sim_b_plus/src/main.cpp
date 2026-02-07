@@ -6,16 +6,38 @@ using std::endl;
 using namespace sim_blist;
 
 int main(int, char **) {
-    // std::unique_ptr oder std::shared_ptr risiko für Dangling Pointers <-- to do
-    DataNode<int> *test = new DataNode<int>(1);
+    // std::unique_ptr oder std::shared_ptr risiko für Dangling Pointers <- to do
+    DataNode<int> *test = new DataNode<int>(5);
     BList r;
+    BList j;
     test->setRelation(&r);
+    r.setnextBList(&j);
+    j.setPreviousBList(&r);
     data_variant *dv = new data_variant(test);
 
     cout << "B+ Baum\n";
     cout << test->getValue() << " " << test->getRelation() << endl;
     r.setDataNode(5, *dv);
     cout << r.getDataNode(5) << " " << test->getValue() << endl;
+
+    for (int i = MAX_SIZE - 1; i >= 0; i--) {
+        cout << r.getDataNode(static_cast<size_t>(i)) << " ";
+    }
+
+    cout << endl;
+
+    cout << test->getRelation() << endl;
+    test->setRelation(r.getnextBList());
+    cout << test->getRelation() << endl;
+
+    BList *h = test->getRelation();
+
+    for (int i = MAX_SIZE - 1; i >= 0; i--) {
+        cout << h->getPreviousBList()->getDataNode(static_cast<size_t>(i))
+             << " ";
+    }
+
+    cout << endl;
 
     delete dv;
     delete test;

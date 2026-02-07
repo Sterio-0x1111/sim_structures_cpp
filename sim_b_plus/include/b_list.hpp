@@ -50,7 +50,7 @@ namespace sim_blist {
       public:
         BList(BList *p_previous = nullptr, BList *p_next = nullptr);
         virtual ~BList();
-        BList(const BList &);
+        // BList(const BList &);
         BList &operator=(const BList &);
 
         void setDataNode(size_t, data_variant);
