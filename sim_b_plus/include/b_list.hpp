@@ -21,31 +21,44 @@ namespace sim_blist {
 
       protected:
       public:
-        DataNode(T p_value, BList *p_relation = nullptr)
+        DataNode(T p_value = 0, BList *p_relation = nullptr)
             : relation(p_relation), value(p_value) {
         }
         virtual ~DataNode() {
         }
 
-        void setRelation(BList *p_relation);
+        void setRelation(BList *p_relation = nullptr);
         BList *getRelation() const;
         void setValue(T p_value);
         T getValue() const;
     };
 
+    using data_variant =
+        std::variant<DataNode<int> *, DataNode<float> *, DataNode<double> *,
+                     DataNode<std::string> *>;
+
+    std::ostream &operator<<(std::ostream &os,
+                             const data_variant &p_data_variant);
+
     class BList {
       private:
         static constexpr size_t max_size = MAX_SIZE;
-        std::variant<DataNode<int>, DataNode<float>, DataNode<double>,
-                     DataNode<std::string>> *data_node[max_size];
+        data_variant data_node[max_size];
         BList *previous;
         BList *next;
 
       public:
-        BList();
+        BList(BList *p_previous = nullptr, BList *p_next = nullptr);
         virtual ~BList();
         BList(const BList &);
         BList &operator=(const BList &);
+
+        void setDataNode(size_t, data_variant);
+        data_variant getDataNode(size_t);
+        void setPreviousBList(BList *);
+        BList *getPreviousBList();
+        void setnextBList(BList *);
+        BList *getnextBList();
     };
 } // namespace sim_blist
 
