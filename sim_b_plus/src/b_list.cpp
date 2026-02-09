@@ -43,6 +43,8 @@ namespace sim_blist {
     void BList::setDataNode(size_t index, data_variant new_data) {
         if (index < max_size) {
             data_node[index] = new_data;
+            std::visit([this](const auto &ptr) { ptr->setRelation(this); },
+                       new_data);
         } else {
             throw std::out_of_range("Index out of range");
         }

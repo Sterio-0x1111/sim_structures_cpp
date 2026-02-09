@@ -6,7 +6,22 @@ using std::cout;
 using std::endl;
 using namespace sim_blist;
 
+void test();
+
 int main(int, char **) {
+    test();
+
+    auto i = std::make_shared<DataNode<int>>(100);
+    // nicht effizient std::shared_ptr<DataNode<int>> i(new DataNode<int>(100)); 
+    
+    BList s;
+    s.setDataNode(0, i);
+    cout << i->getRelation()->getDataNode(0);
+
+    return EXIT_SUCCESS;
+}
+
+void test() {
     // std::unique_ptr oder std::shared_ptr risiko für Dangling Pointers <-- to
     // do
     std::shared_ptr<DataNode<int>> test = std::make_shared<DataNode<int>>(5);
@@ -39,7 +54,6 @@ int main(int, char **) {
 
     cout << endl;
 
-    cout << r.getDataNode(5); // wert wird angezeigt obwohl bereits freigegeben
-
-    return EXIT_SUCCESS;
+    // test.reset(); setzt auf 0
+    cout << r.getDataNode(5);
 }
