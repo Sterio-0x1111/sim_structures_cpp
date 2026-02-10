@@ -1,0 +1,2 @@
+E:\Computer\msys64\ucrt64\bin\ar.exe qc libglad.a CMakeFiles/glad.dir/external/glad_khr/glad/src/glad.c.obj
+E:\Computer\msys64\ucrt64\bin\ranlib.exe libglad.a

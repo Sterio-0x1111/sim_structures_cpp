@@ -1,0 +1,3 @@
+E:\Computer\msys64\ucrt64\bin\cmake.exe -E rm -f CMakeFiles\SimCubeLight.dir/objects.a
+E:\Computer\msys64\ucrt64\bin\ar.exe qc CMakeFiles\SimCubeLight.dir/objects.a @CMakeFiles\SimCubeLight.dir\objects1.rsp
+E:\Computer\msys64\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\SimCubeLight.dir/objects.a -Wl,--no-whole-archive -o SimCubeLight.exe -Wl,--out-implib,libSimCubeLight.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\SimCubeLight.dir\linkLibs.rsp
