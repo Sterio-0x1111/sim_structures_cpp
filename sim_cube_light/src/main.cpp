@@ -15,7 +15,12 @@
 
 #include <GLFW/glfw3.h>
 
+#include <exception>
 #include <iostream>
+#include <stdexcept>
+
+using std::cout;
+using std::runtime_error;
 
 int main() {
     // Initialisierung
@@ -30,16 +35,17 @@ int main() {
     // Fenster erstellen
     GLFWwindow *window =
         glfwCreateWindow(800, 600, "Sim Cube Light", NULL, NULL);
+
     if (!window) {
         glfwTerminate();
-        return -1;
+        throw runtime_error("Window cannot be build: Nullptr");
     }
+
     glfwMakeContextCurrent(window);
 
     // GLAD laden
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cout << "Fehler beim Laden von GLAD!" << std::endl;
-        return -1;
+        throw runtime_error("GLAD errors");
     }
 
     // Main Loop
